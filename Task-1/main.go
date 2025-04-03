@@ -53,6 +53,10 @@ func main() {
 			fmt.Println(Red+"Invalid grade! Must be a number."+Reset, err)
 			continue
 		}
+		if grade < 0 || grade > 100 {
+			fmt.Println(Red + "Invalid grade! Must be between 0 and 100." + Reset)
+			continue
+		}
 
 		subjects[subject] = grade
 		i++
@@ -64,9 +68,14 @@ func main() {
 		total += grade
 		fmt.Printf(Blue+" %-15s : %3d\n"+Reset, subject, grade)
 	}
+	var avarage = calculateAvarage(total, numberOfSubjects)
 	fmt.Println("────────────────────────────────────")
-	fmt.Printf(Blue+" %-15s : %3d\n"+Reset, "Average", total/numberOfSubjects)
+	fmt.Printf(Blue+" %-15s : %3f\n"+Reset, "Average", avarage)
 
 	fmt.Println("────────────────────────────────────")
 	fmt.Println(Green + "Thank you for using the grade recorder!" + Reset)
+}
+
+func calculateAvarage(totalGrade int, numberOfSubjects int) float32 {
+	return float32(totalGrade / numberOfSubjects)
 }
