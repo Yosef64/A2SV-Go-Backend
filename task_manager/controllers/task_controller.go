@@ -62,5 +62,5 @@ func DeleteTask(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
 		return
 	}
-	c.JSON(http.StatusNoContent, gin.H{"message": "Task deleted successfully!"})
+	c.JSON(http.StatusOK, gin.H{"message": "Task deleted successfully!"})
 }
