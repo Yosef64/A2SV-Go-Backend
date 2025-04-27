@@ -19,7 +19,9 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 ### GET /register
 
 **Authentication Not Required**
+
 **Description**: Register a new user.
+
 **Request**:
 
 ```json
@@ -43,6 +45,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 **Authentication Not Required**
 
 **Description**: Login and receive a JWT token.
+
 **Request**:
 
 ```json
@@ -63,6 +66,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 ### GET /api/tasks
 
 **Authentication Required**
+
 **Description:** Fetch all tasks.
 
 **Response:**
@@ -82,6 +86,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 ### GET /api/tasks/:id
 
 **Authentication Required**
+
 **Description:**: Fetch a specific task.
 
 **Response:**
@@ -99,6 +104,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 ### POST /api/tasks
 
 **Authentication Required**
+
 **Description**: Create a new task owned by the authenticated user.
 
 **Request**:
@@ -123,7 +129,9 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 ### PUT /api/tasks/:id
 
 **Authentication Required**
+
 **Description**: Update a task.
+
 **Request**:
 
 ```json
@@ -146,7 +154,9 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 ### DELETE /api/admin/tasks/:id
 
 **Authentication Required**
+
 **Authorization**: Only the admin can delete it.
+
 **Description**: Delete a task.
 
 **Response**: 204.
