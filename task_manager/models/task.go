@@ -2,9 +2,9 @@ package models
 
 // Task represents a task in the task manager
 type Task struct {
-	ID          string
-	Title       string
-	Description string
-	DueDate     string
-	Status      string
+	ID          string `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	DueDate     string `json:"due_date"`
+	Status      string `json:"status"`
 }

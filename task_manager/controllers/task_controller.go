@@ -9,13 +9,11 @@ import (
 	"github.com/google/uuid"
 )
 
-// TaskController handles HTTP requests for task management
 func GetTasks(c *gin.Context) {
 	tasks := data.GetAllTasks()
 	c.JSON(http.StatusOK, tasks)
 }
 
-// GetTaskByID retrieves a task by its ID
 func GetTaskByID(c *gin.Context) {
 	id := c.Param("id")
 	task, err := data.GetTaskByID(id)
@@ -26,8 +24,6 @@ func GetTaskByID(c *gin.Context) {
 	c.JSON(http.StatusOK, task)
 }
 
-// CreateTask creates a new task
-// @Summary Create a new task
 func CreateTask(c *gin.Context) {
 	var task models.Task
 	if err := c.ShouldBindJSON(&task); err != nil {

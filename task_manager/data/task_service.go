@@ -14,18 +14,6 @@ import (
 
 var TaskCollection *mongo.Collection
 
-func InitMongoDB() {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
-	client, err := mongo.Connect(context.TODO(), clientOptions)
-	if err != nil {
-		fmt.Print("Failed to connect to MongoDB")
-		log.Fatal(err)
-	}
-	fmt.Println("Connected to Db!")
-
-	TaskCollection = client.Database("task_management_api").Collection("tasks")
-}
-
 func GetAllTasks() []models.Task {
 	findOption := options.Find()
 	var tasks []models.Task

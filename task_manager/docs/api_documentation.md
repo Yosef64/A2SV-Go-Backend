@@ -4,8 +4,21 @@ Base URL: `http://localhost:8080`
 
 ---
 
-### GET /tasks
+## Authentication
 
+All task endpoints require authentication.
+Clients must include a valid Authorization header:
+
+```makefile
+Authorization: Bearer <your-token>
+
+```
+
+If the token is invalid or missing, the server will respond with 401 Unauthorized.
+
+### GET api/tasks
+
+**Authentication Required**
 **Description:** Fetch all tasks.
 
 **Response:**
@@ -22,8 +35,9 @@ Base URL: `http://localhost:8080`
 ]
 ```
 
-### GET /tasks/:id
+### GET api/tasks/:id
 
+**Authentication Required**
 **Description:**: Fetch a specific task.
 
 **Response:**
@@ -38,9 +52,10 @@ Base URL: `http://localhost:8080`
 }
 ```
 
-### POST /tasks
+### POST api/tasks
 
-**Description**: Create a new task.
+**Authentication Required**
+**Description**: Create a new task owned by the authenticated user.
 
 **Request**:
 
@@ -53,10 +68,17 @@ Base URL: `http://localhost:8080`
 }
 ```
 
-**Response**: 201 Created with the full task including generated id.
+**Response**: 201 Created.
 
-### PUT /tasks/:id
+```json
+{
+  "message": "Task created successfully"
+}
+```
 
+### PUT api/tasks/:id
+
+**Authentication Required**
 **Description**: Update a task.
 **Request**:
 
@@ -69,13 +91,27 @@ Base URL: `http://localhost:8080`
 }
 ```
 
-**Response**: 200 OK with updated task data.
+**Response**: 200 OK.
 
-### DELETE /tasks/:id
+```json
+{
+  "message": "Task updated successfully"
+}
+```
 
+### DELETE api/admin/tasks/:id
+
+**Authentication Required**
+**Authorization**: Only the admin can delete it.
 **Description**: Delete a task.
 
-**Response**: 204 No Content
+**Response**: 204.
+
+```json
+{
+  "message": "Task deleted successfully"
+}
+```
 
 ### Error Codes
 
