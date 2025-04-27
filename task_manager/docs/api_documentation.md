@@ -6,7 +6,7 @@ Base URL: `http://localhost:8080`
 
 ## Authentication
 
-All task endpoints require authentication.
+All task endpoints require authentication except login and register.
 Clients must include a valid Authorization header:
 
 ```makefile
@@ -16,7 +16,51 @@ Authorization: Bearer <your-token>
 
 If the token is invalid or missing, the server will respond with 401 Unauthorized.
 
-### GET api/tasks
+### GET /register
+
+**Authentication Not Required**
+**Description**: Register a new user.
+**Request**:
+
+```json
+{
+  "username": "username",
+  "password": "password",
+  "role": "user or admin"
+}
+```
+
+**Response:**
+
+```json
+{
+  "message": "User registered successfully"
+}
+```
+
+### POST /login
+
+**Authentication Not Required**
+
+**Description**: Login and receive a JWT token.
+**Request**:
+
+```json
+{
+  "username": "your_username",
+  "password": "your_password"
+}
+```
+
+**Response**: 200 OK
+
+```json
+{
+  "token": "your_jwt_token_here"
+}
+```
+
+### GET /api/tasks
 
 **Authentication Required**
 **Description:** Fetch all tasks.
@@ -35,7 +79,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 ]
 ```
 
-### GET api/tasks/:id
+### GET /api/tasks/:id
 
 **Authentication Required**
 **Description:**: Fetch a specific task.
@@ -52,7 +96,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 }
 ```
 
-### POST api/tasks
+### POST /api/tasks
 
 **Authentication Required**
 **Description**: Create a new task owned by the authenticated user.
@@ -76,7 +120,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 }
 ```
 
-### PUT api/tasks/:id
+### PUT /api/tasks/:id
 
 **Authentication Required**
 **Description**: Update a task.
@@ -99,7 +143,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 }
 ```
 
-### DELETE api/admin/tasks/:id
+### DELETE /api/admin/tasks/:id
 
 **Authentication Required**
 **Authorization**: Only the admin can delete it.
