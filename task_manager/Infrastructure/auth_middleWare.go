@@ -1,16 +1,31 @@
-package middleware
+package Infrastructure
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
+	domain "task_manager/Domain"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
-var jwtKey = []byte("your_secret_key")
+type AuthMiddleWare interface {
+	AuthMiddleware() gin.HandlerFunc
+	AdminOnly() gin.HandlerFunc
+}
 
-func AuthMiddleware() gin.HandlerFunc {
+type authMiddleWare struct {
+	secretKey  string
+	jwtService JWTService
+}
+
+func NewAuthMiddleware(secretKey string, jwtService JWTService) AuthMiddleWare {
+	return &authMiddleWare{
+		secretKey:  secretKey,
+		jwtService: jwtService,
+	}
+}
+func (a *authMiddleWare) AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
@@ -21,16 +36,12 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 
-		claims := &struct {
-			Username string `json:"username"`
-			Role     string `json:"role"`
-			jwt.StandardClaims
-		}{}
+		claims := &domain.Claims{}
 
-		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (any, error) {
-			return jwtKey, nil
-		})
-		if err != nil || !token.Valid {
+		if isValid, err := a.jwtService.ValidateToken(tokenString, claims); err != nil || !isValid {
+			if err != nil {
+				fmt.Println("Error validating token:", err)
+			}
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})
 			c.Abort()
 			return
@@ -43,7 +54,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	}
 }
 
-func AdminOnly() gin.HandlerFunc {
+func (a *authMiddleWare) AdminOnly() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, exists := c.Get("role")
 		if !exists {

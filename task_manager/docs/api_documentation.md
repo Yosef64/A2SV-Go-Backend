@@ -16,7 +16,7 @@ Authorization: Bearer <your-token>
 
 If the token is invalid or missing, the server will respond with 401 Unauthorized.
 
-### GET /register
+### GET /auth/register
 
 **Authentication Not Required**
 
@@ -40,7 +40,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 }
 ```
 
-### POST /login
+### POST /auth/login
 
 **Authentication Not Required**
 
@@ -63,7 +63,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 }
 ```
 
-### GET /api/tasks
+### GET /tasks
 
 **Authentication Required**
 
@@ -83,7 +83,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 ]
 ```
 
-### GET /api/tasks/:id
+### GET /tasks/:id
 
 **Authentication Required**
 
@@ -101,7 +101,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 }
 ```
 
-### POST /api/tasks
+### POST /tasks
 
 **Authentication Required**
 
@@ -126,7 +126,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 }
 ```
 
-### PUT /api/tasks/:id
+### PUT /tasks/:id
 
 **Authentication Required**
 
@@ -151,7 +151,7 @@ If the token is invalid or missing, the server will respond with 401 Unauthorize
 }
 ```
 
-### DELETE /api/admin/tasks/:id
+### DELETE /tasks/admin/:id
 
 **Authentication Required**
 

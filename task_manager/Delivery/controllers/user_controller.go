@@ -2,20 +2,33 @@ package controllers
 
 import (
 	"net/http"
-	"task_manager/data"
-	"task_manager/models"
+	domain "task_manager/Domain"
+	usecases "task_manager/Usecases"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Register(c *gin.Context) {
-	var user models.User
+type UserController interface {
+	Register(c *gin.Context)
+	Login(c *gin.Context)
+}
+type userController struct {
+	userUsercase usecases.UserUsecase
+}
+
+func NewUserController(userUsecase usecases.UserUsecase) UserController {
+	return &userController{
+		userUsercase: userUsecase,
+	}
+}
+func (u *userController) Register(c *gin.Context) {
+	var user domain.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid payload"})
 		return
 	}
 
-	err := data.RegisterUser(user)
+	err := u.userUsercase.Register(user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -23,7 +36,7 @@ func Register(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
 }
 
-func Login(c *gin.Context) {
+func (u *userController) Login(c *gin.Context) {
 	var credentials struct {
 		Username string `json:"username"`
 		Password string `json:"password"`
@@ -33,7 +46,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := data.AuthenticateUser(credentials.Username, credentials.Password)
+	token, err := u.userUsercase.Login(credentials.Username, credentials.Password)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
